@@ -21,17 +21,22 @@ editor_options:
 **Reproducibility**: when someone else (e.g., future self) can obtain the same outcomes from the same dataset and analysis
 
 * Raw data are always separate from processed data
+don't edit excel spreadsheets 
 * Link data transformations with a reproducible pipeline
+script is always reproducible
 * Raw datasets NEVER changed
 * Cleaning/transformations done through coding, not by editing within Excel
 * Edits documented by well-commented code
 * Majority of time spent in the data processing phase (clean, wrangle)
+if it's done thoughtfully, next steps come more easily, analysis is more efficient 
 
 ### Rules and Conventions
 
 * Data stored in nonproprietary software (e.g., .csv, .md, .txt)
+comma separated values, mark down, text
 * File names in ASCII text
 * No spaces!
+use understores or dashes or dots 
 * Consistent file naming conventions
 * Store data, code, and output in separate folders
 
@@ -126,6 +131,7 @@ longnameforillustration
 
 ```{r}
 long_name_for_illustration <- 11
+long_name_for_illustration
 
 ```
 
@@ -152,7 +158,7 @@ The basic form of a function is `functionname()`, and the packages we will use i
 
 Writing a function is like writing a recipe. Your function will need a recipe name (functionname). Your recipe ingredients will go inside the parentheses. The recipe steps and end product go inside the curly brackets.
 ```{r}
-functionname <- function(){
+functionname <- function(){ 
   
 }
 ```
