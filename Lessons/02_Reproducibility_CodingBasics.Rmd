@@ -158,7 +158,7 @@ The basic form of a function is `functionname()`, and the packages we will use i
 
 Writing a function is like writing a recipe. Your function will need a recipe name (functionname). Your recipe ingredients will go inside the parentheses. The recipe steps and end product go inside the curly brackets.
 ```{r}
-functionname <- function(){ 
+functionname <- function(x){ 
   
 }
 ```
