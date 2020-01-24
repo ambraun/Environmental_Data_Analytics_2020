@@ -67,7 +67,7 @@ You may also import datasets from the Files tab, but this is not recommended sin
 USGS.flow.data <- read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv")
 
 # What happens if we don't assign a name to our imported dataset?
-#read.csv("../Data/Raw/USGS_Site02085000_Flow_Raw.csv")
+read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv")
 
 # Another option is to choose with your browser
 #read.csv(file.choose())
@@ -84,7 +84,8 @@ Take a moment to read through the README file associated with the USGS dataset o
 
 ```{r}
 View(USGS.flow.data)
-# Alternate option: click on data frame in Environment tab
+# Viewung the R object we created with <-
+#Alternate option: click on data frame in Environment tab
 
 class(USGS.flow.data)
 colnames(USGS.flow.data)
@@ -174,7 +175,7 @@ today <- Sys.Date()
 #format(today, format = "%Y")
 #format(today, format = "%a")
 #format(today, format = "%b")
-
+#calling up object and the specific column, assignment operator is formatting it something new, as date is the function 
 USGS.flow.data$datetime <- as.Date(USGS.flow.data$datetime, format = "%m/%d/%y") 
 ```
 
@@ -182,12 +183,12 @@ Note that for every date prior to 1969, R has assigned the date in the 2000s rat
 
 ```{r}
 #whaterformat the data is in, not what R has 
-
-USGS.flow.data$datetime <- format(USGS.flow.data$datetime, format = "%m/%d/%y")
+#formatfunction, date time is in character format  
+USGS.flow.data$datetime <- format(USGS.flow.data$datetime, format = "%y%m%d")
 
 #
 create.early.dates <- (function(d) {
-       paste0(ifelse(d > 181231,"19","20"),d)
+       paste0(ifelse(d > 191231,"19","20"),d)
        })
 #
 USGS.flow.data$datetime <- create.early.dates(USGS.flow.data$datetime)
@@ -204,7 +205,7 @@ We just edited our raw dataset into a processed form. We may want to return to t
 
 ```{r}
 write.csv(USGS.flow.data, file = "./Data/Processed/USGS_Site02085000_Flow_Processed.csv", row.names=FALSE)
-
+#row names makes sure that there is not a column row number in the new file
 ```
 
 
