@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.1.13)  27 JAN 2020 14:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.1.13)  28 JAN 2020 11:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -502,8 +502,7 @@ Package grffile Info: Option `multidot' is set to `true'.
 Package grffile Info: Option `extendedchars' is set to `false'.
 Package grffile Info: Option `space' is set to `true'.
 Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
-)
-No file A03_DataExploration.aux.
+) (./A03_DataExploration.aux)
 \openout1 = `A03_DataExploration.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 111.
@@ -566,6 +565,7 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 111.
 LaTeX Info: Redefining \pageref on input line 111.
 LaTeX Info: Redefining \nameref on input line 111.
+(./A03_DataExploration.out) (./A03_DataExploration.out)
 \@outlinefile=\write4
 \openout4 = `A03_DataExploration.out'.
 
@@ -694,22 +694,418 @@ Overfull \hbox (36.55403pt too wide) in paragraph at lines 235--238
  []
 
 
-! Package inputenc Error: Unicode character 􏰄 (U+10FC04)
-(inputenc)                not set up for use with LaTeX.
+Overfull \hbox (34.24315pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##                                                           
+                      Chemical.Name[] 
+ []
 
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.247 for trap placement. }
-                           The finest resolution at which spatial data are 
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  (2E)-1-[(6-Chloro-3-pyridinyl)methyl]-N-nitro-2-imidazoli
+dinimine                     :2658[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  3-[(2-Chloro-5-thiazolyl)methyl]tetrahydro-5-methyl-N-nit
+ro-4H-1,3,5-oxadiazin-4-imine: 686[] 
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+440.
+(/usr/local/texlive/2019basic/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  [C(E)]-N-[(2-Chloro-5-thiazolyl)methyl]-N\TS1/lmtt/m/n/10
+ '\T1/lmtt/m/n/10 -methyl-N\TS1/lmtt/m/n/10 ''\T1/lmtt/m/n/10 -nitroguanidine  
+                : 452[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  (1E)-N-[(6-Chloro-3-pyridinyl)methyl]-N\TS1/lmtt/m/n/10 '
+\T1/lmtt/m/n/10 -cyano-N-methylethanimidamide                 : 420[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  N\TS1/lmtt/m/n/10 ''\T1/lmtt/m/n/10 -Methyl-N-nitro-N\TS1
+/lmtt/m/n/10 '\T1/lmtt/m/n/10 -[(tetrahydro-3-furanyl)methyl]guanidine         
+                : 218[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  [N(Z)]-N-[3-[(6-Chloro-3-pyridinyl)methyl]-2-thiazolidiny
+lidene]cyanamide             : 128[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                             :  61[] 
+ []
+
+[2] [3]
+Overfull \hbox (286.24242pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##                                                           
+                                                                              T
+itle[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Long-Term Effects of Imidacloprid on the Abundance of Sur
+face- and Soil-Active Nontarget Fauna in Turf                                  
+  : 200[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Reduced Risk Insecticides to Control Scale Insects and Pr
+otect Natural Enemies in the Production and Maintenance of Urban Landscape Plan
+ts: 100[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Effects of Sublethal Doses of Acetamiprid and Thiamethoxa
+m on the Behavior of the Honeybee (Apis mellifera)                             
+  :  96[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Exposure to Neonicotinoids Influences the Motor Function 
+of Adult Worker Honeybees                                                      
+  :  93[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Toxicity of Neonicotinoid Insecticides on Different Honey
+ Bee Genotypes                                                                 
+  :  88[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Chronic Exposure of Imidacloprid and Clothianidin Reduce 
+Queen Survival, Foraging, and Nectar Storing in Colonies of Bombus impatiens   
+  :  82[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                                                                               
+  :3964[] 
+ []
+
+[4]
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR/ - NR/ AI kg/ha | Duration (
+Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author
+): \xca NR (NR - NR) NR  : 389[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI lb/acre | Duration (
+Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author
+): \xca NR (NR - NR) NR  : 138[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI kg/ha | Duration (Da
+ys): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author):
+ \xca NR (NR - NR) NR    : 136[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR/ - NR/ AI lb/acre | Duration
+ (Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Auth
+or): \xca NR (NR - NR) NR: 124[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI ng/org | Duration (D
+ays): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author)
+: \xca NR (NR - NR) NR   :  94[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Formulation NR - NR ml/ha | Duration (Days): \xca
+ NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author): \xca NR 
+(NR - NR) NR             :  80[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 440--440
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                                                                               
+                                                                               
+                         :3662[] 
+ []
+
+
+Overfull \hbox (34.24315pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##                                                           
+                      Chemical.Name[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  (2E)-1-[(6-Chloro-3-pyridinyl)methyl]-N-nitro-2-imidazoli
+dinimine                     :2658[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  3-[(2-Chloro-5-thiazolyl)methyl]tetrahydro-5-methyl-N-nit
+ro-4H-1,3,5-oxadiazin-4-imine: 686[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  [C(E)]-N-[(2-Chloro-5-thiazolyl)methyl]-N\TS1/lmtt/m/n/10
+ '\T1/lmtt/m/n/10 -methyl-N\TS1/lmtt/m/n/10 ''\T1/lmtt/m/n/10 -nitroguanidine  
+                : 452[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  (1E)-N-[(6-Chloro-3-pyridinyl)methyl]-N\TS1/lmtt/m/n/10 '
+\T1/lmtt/m/n/10 -cyano-N-methylethanimidamide                 : 420[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  N\TS1/lmtt/m/n/10 ''\T1/lmtt/m/n/10 -Methyl-N-nitro-N\TS1
+/lmtt/m/n/10 '\T1/lmtt/m/n/10 -[(tetrahydro-3-furanyl)methyl]guanidine         
+                : 218[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  [N(Z)]-N-[3-[(6-Chloro-3-pyridinyl)methyl]-2-thiazolidiny
+lidene]cyanamide             : 128[] 
+ []
+
+
+Overfull \hbox (28.99316pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                             :  61[] 
+ []
+
+[5] [6]
+Overfull \hbox (286.24242pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##                                                           
+                                                                              T
+itle[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Long-Term Effects of Imidacloprid on the Abundance of Sur
+face- and Soil-Active Nontarget Fauna in Turf                                  
+  : 200[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Reduced Risk Insecticides to Control Scale Insects and Pr
+otect Natural Enemies in the Production and Maintenance of Urban Landscape Plan
+ts: 100[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Effects of Sublethal Doses of Acetamiprid and Thiamethoxa
+m on the Behavior of the Honeybee (Apis mellifera)                             
+  :  96[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Exposure to Neonicotinoids Influences the Motor Function 
+of Adult Worker Honeybees                                                      
+  :  93[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Toxicity of Neonicotinoid Insecticides on Different Honey
+ Bee Genotypes                                                                 
+  :  88[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Chronic Exposure of Imidacloprid and Clothianidin Reduce 
+Queen Survival, Foraging, and Nectar Storing in Colonies of Bombus impatiens   
+  :  82[] 
+ []
+
+
+Overfull \hbox (301.99237pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                                                                               
+  :3964[] 
+ []
+
+[7]
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR/ - NR/ AI kg/ha | Duration (
+Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author
+): \xca NR (NR - NR) NR  : 389[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI lb/acre | Duration (
+Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author
+): \xca NR (NR - NR) NR  : 138[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI kg/ha | Duration (Da
+ys): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author):
+ \xca NR (NR - NR) NR    : 136[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR/ - NR/ AI lb/acre | Duration
+ (Days): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Auth
+or): \xca NR (NR - NR) NR: 124[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Active ingredient NR - NR AI ng/org | Duration (D
+ays): \xca NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author)
+: \xca NR (NR - NR) NR   :  94[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  Purity: \xca NR - NR | Organism Age: \xca NR - NR Not rep
+orted | Conc 1 (Author): \xca Formulation NR - NR ml/ha | Duration (Days): \xca
+ NR - NR NR | Conc 2 (Author): \xca NR (NR - NR) NR | Conc 3 (Author): \xca NR 
+(NR - NR) NR             :  80[] 
+ []
+
+
+Overfull \hbox (837.49081pt too wide) in paragraph at lines 614--614
+[]\T1/lmtt/m/n/10 ##  (Other)                                                  
+                                                                               
+                                                                               
+                         :3662[] 
+ []
+
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-6-1".pdf, id=89, 469.7
+55pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-6-1".pdf Graphic 
+file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-6-1".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-6-1".pdf  used on input line 668.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[8 <./A03_DataExploration_files/figure-latex/unnamed-chunk-6-1.pdf>]
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-7-1".pdf, id=102, 469.
+755pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-7-1".pdf Graphic 
+file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-7-1".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-7-1".pdf  used on input line 690.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-8-1".pdf, id=103, 469.
+755pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-8-1".pdf Graphic 
+file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-8-1".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-8-1".pdf  used on input line 718.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[9 <./A03_DataExploration_files/figure-latex/unnamed-chunk-7-1.pdf>] [10 <./A03
+_DataExploration_files/figure-latex/unnamed-chunk-8-1.pdf>]
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-11-1".pdf, id=127, 469
+.755pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-11-1".pdf Graphic
+ file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-11-1".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-11-1".pdf  used on input line 810.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-12-1".pdf, id=128, 469
+.755pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-12-1".pdf Graphic
+ file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-12-1".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-12-1".pdf  used on input line 828.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[11 <./A03_DataExploration_files/figure-latex/unnamed-chunk-11-1.pdf>]
+<"A03_DataExploration_files/figure-latex/""unnamed-chunk-12-2".pdf, id=140, 469
+.755pt x 325.215pt>
+File: "A03_DataExploration_files/figure-latex/""unnamed-chunk-12-2".pdf Graphic
+ file (type pdf)
+<use "A03_DataExploration_files/figure-latex/""unnamed-chunk-12-2".pdf>
+Package pdftex.def Info: "A03_DataExploration_files/figure-latex/""unnamed-chun
+k-12-2".pdf  used on input line 837.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[12 <./A03_DataExploration_files/figure-latex/unnamed-chunk-12-1.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 853.
+[13 <./A03_DataExploration_files/figure-latex/unnamed-chunk-12-2.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 853.
+(./A03_DataExploration.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 853.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 853.
+Package rerunfilecheck Info: File `A03_DataExploration.out' has not changed.
+(rerunfilecheck)             Checksum: 79ACFF49EAF97A8C09C849E9A9333A1F;1246.
+ ) 
 Here is how much of TeX's memory you used:
- 13079 strings out of 493610
- 191053 string characters out of 6159293
- 299021 words of memory out of 5000000
- 17022 multiletter control sequences out of 15000+600000
- 38404 words of font info for 57 fonts, out of 8000000 for 9000
+ 13230 strings out of 493610
+ 194790 string characters out of 6159293
+ 316194 words of memory out of 5000000
+ 17101 multiletter control sequences out of 15000+600000
+ 40001 words of font info for 73 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 39i,6n,42p,827b,379s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,6n,42p,827b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2019basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/
+local/texlive/2019basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/tex
+live/2019basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/
+2019basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2019b
+asic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2019basic/t
+exmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2019basic/texmf-d
+ist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2019basic/texmf-dist/fo
+nts/type1/public/lm/lmri10.pfb></usr/local/texlive/2019basic/texmf-dist/fonts/t
+ype1/public/lm/lmtk10.pfb></usr/local/texlive/2019basic/texmf-dist/fonts/type1/
+public/lm/lmtt10.pfb></usr/local/texlive/2019basic/texmf-dist/fonts/type1/publi
+c/lm/lmtti10.pfb>
+Output written on A03_DataExploration.pdf (13 pages, 293930 bytes).
+PDF statistics:
+ 207 PDF objects out of 1000 (max. 8388607)
+ 169 compressed objects within 2 object streams
+ 48 named destinations out of 1000 (max. 500000)
+ 10327 words of extra memory for PDF output out of 12000 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!
