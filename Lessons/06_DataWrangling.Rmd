@@ -19,31 +19,39 @@ Today we will work with a dataset from the [North Temperate Lakes Long-Term Ecol
 
 Opening discussion: why might we be interested in long-term observations of temperature, oxygen, and light in lakes?
 
-> Add notes here: 
+> Add notes here: ecosystem health - eutrophication, 
 
 ```{r, message = FALSE}
 getwd()
 library(tidyverse)
-#install.packages(lubridate)
+
+#install.packages(lubridate), cant knit with an install packages line 
+
 library(lubridate)
+
+#library function should not be commented out, check mark in packages window when it has been loaded 
+
 NTL.phys.data <- read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv")
 
+#North Temperature Lakes, physical data, make an object from the CSV
+
 colnames(NTL.phys.data)
-head(NTL.phys.data)
+head(NTL.phys.data) #first 6 rows, what types of data are in there?
 summary(NTL.phys.data)
-str(NTL.phys.data)
-dim(NTL.phys.data)
+str(NTL.phys.data) #structure over summary, structure tells you what type of data (vector) is in each column 
+dim(NTL.phys.data) #38614 rows, 11 columns
 
 class(NTL.phys.data$sampledate)
 # Format sampledate as date
 NTL.phys.data$sampledate <- as.Date(NTL.phys.data$sampledate, format = "%m/%d/%y")
+#formatting it how it is 
 ```
 
 ## Data Wrangling
 
 Data wrangling extends data exploration: it allows you to process data in ways that are useful for you. An important part of data wrangling is creating *tidy datasets*, with the following rules: 
 
-1. Each variable has its own column
+1. Each variable has its own column, can't have multiple items within each cell 
 2. Each observation has its own row
 3. Each value has its own cell
 
@@ -51,7 +59,7 @@ What is the best way to wrangle data? There are multiple ways to arrive at a spe
 
 ## Dplyr Wrangling Functions
 
-`dplyr` is a package in R that includes functions for data manipulation (i.e., data wrangling or data munging). `dplyr` is included in the tidyverse package, so you should already have it installed on your machine. The functions act as verbs for data wrangling processes. For more information, run this line of code:
+`dplyr` is a package in R that includes functions for data manipulation (i.e., data wrangling or data munging). `dplyr` is included in the tidyverse package, so you should already have it installed on your machine. The functions act as verbs for data wrangling processes. For more information, run this line of code. Vignette comes up in Help Window. Tidy verse functions have cheat sheet. results = hide, makes it not appear when you knit 
 
 ```{r, results = "hide"}
 vignette("dplyr")
@@ -59,28 +67,32 @@ vignette("dplyr")
 
 ### Filter
 
-Filtering allows us to choose certain rows (observations) in our dataset.
+Filtering allows us to choose certain rows (observations) in our dataset. Need to know which type of data are in each 
 
 Here are the relevant commands used in the `filter` function. Add some notes to designate what these commands mean. 
-`==`
-`!=`
-`<`
-`<=`
-`>`
-`>=`
-`&`
-`|`
+`==` equals, factor level or numeric level, make sure to use two with filter function 
+`!=` not equal to 
+`<` less than 
+`<=` less than or equal 
+`>` greater than
+`>=` greater than or equal 
+`&` and 
+`|` or 
 
 ```{r}
 class(NTL.phys.data$lakeid)
+# factor vector, letter in each cell 
 class(NTL.phys.data$depth)
+#depth in meters, numeric vector 
 
 # matrix filtering
 NTL.phys.data.surface1 <- NTL.phys.data[NTL.phys.data$depth == 0,]
+#within the matrix, select depth where rows = 0, in matrix notation specific rows and columns need to put comma to signify you want columns 
 
 # dplyr filtering
 NTL.phys.data.surface2 <- filter(NTL.phys.data, depth == 0)
 NTL.phys.data.surface3 <- filter(NTL.phys.data, depth < 0.25)
+# what the data are and how to do the filtering, grab all phys data, find rows where depth =0
 
 # Did the methods arrive at the same result?
 head(NTL.phys.data.surface1)
@@ -93,32 +105,44 @@ dim(NTL.phys.data.surface3)
 # Choose multiple conditions to filter
 summary(NTL.phys.data$lakename)
 NTL.phys.data.PeterPaul1 <- filter(NTL.phys.data, lakename == "Paul Lake" | lakename == "Peter Lake")
+#create data frame that lake name = Paul Lake OR lakename = Peter Lake 
 NTL.phys.data.PeterPaul2 <- filter(NTL.phys.data, lakename != "Central Long Lake" & 
                                      lakename != "Crampton Lake" & lakename != "East Long Lake" &
                                      lakename != "Hummingbird Lake" & lakename != "Tuesday Lake" &
                                      lakename != "Ward Lake" & lakename != "West Long Lake")
+#create data frame that lake name is NOT EQUAL to these lake names 
 NTL.phys.data.PeterPaul3 <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
+#%in% include anything that is Paul or Peter Lake, concatanate that list, within filter only concatanate when using the %in% function 
 
-# Choose a range of conditions of a numeric or integer variable
+# Choose a range of conditions of a numeric or integer variable/value
+#day of the year when each sample was taken 
 summary(NTL.phys.data$daynum)
 NTL.phys.data.JunethruOctober1 <- filter(NTL.phys.data, daynum > 151 & daynum < 305)
+#filtering to select days greater than day 151 and less than day 305, & operator 
 NTL.phys.data.JunethruOctober2 <- filter(NTL.phys.data, daynum > 151, daynum < 305)
+#same but with comma operator 
 NTL.phys.data.JunethruOctober3 <- filter(NTL.phys.data, daynum >= 152 & daynum <= 304)
+#another syntax 
 NTL.phys.data.JunethruOctober4 <- filter(NTL.phys.data, daynum %in% c(152:304))
+#includes operator with a cancatanated range of numbers 
 
 # Exercise: 
 # filter NTL.phys.data for the year 1999
 # what code do you need to use, based on the class of the variable?
 class(NTL.phys.data$year4)
-
+NTL.phys.data.1999 <- filter(NTL.phys.data, year4 == 1999)
 # Exercise: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
-
-
+NTL.phys.data.Tuesday <-filter(NTL.phys.data, 
+                               lakename == "Tuesday Lake" & 
+                                 year4 > 1989 & year4 <2000)
+# or year %in% c(1990:1999)
+dim(NTL.phys.data.Tuesday)
+dim(NTL.phys.data.1999)
 ```
 Question: Why don't we filter using row numbers?
 
-> Answer: 
+> Answer: Wanted to filter based on attribute than row numbers, if the data set changes, the rows wouldn't be the right ones. 
 
 ### Arrange
 
@@ -126,12 +150,15 @@ Arranging allows us to change the order of rows in our dataset. By default, the 
 
 ```{r}
 NTL.phys.data.depth.ascending <- arrange(NTL.phys.data, depth)
+#arrange physical data set by ascending depth, dont have to specify ascending  
 NTL.phys.data.depth.descending <- arrange(NTL.phys.data, desc(depth))
+#arrange physical data set by descending order, do have to specify descending 
 
 # Exercise: 
 # Arrange NTL.phys.data by temperature, in descending order. 
+NTL.phys.data.temperature.descending <- arrange(NTL.phys.data, desc(temperature_C))
 # Which dates, lakes, and depths have the highest temperatures?
-
+#midsummer, shallow depths, june and july, some lakes more than others 
 
 ```
 ### Select
@@ -140,6 +167,7 @@ Selecting allows us to choose certain columns (variables) in our dataset.
 
 ```{r}
 NTL.phys.data.temps <- select(NTL.phys.data, lakename, sampledate:temperature_C)
+#name which column want to keep or leave out of data set, select columns lakename and include sample date through temperature_C, selecting only based on name of the column, select needs commas for what you're selecting, can also put that you don't want to include lake name with a -lakename, would have to be both -- exclude, or both include 
 
 ```
 ### Mutate
@@ -149,6 +177,7 @@ Mutating allows us to add new columns that are functions of existing columns. Op
 ```{r}
 
 NTL.phys.data.temps <- mutate(NTL.phys.data.temps, temperature_F = (temperature_C*9/5) + 32)
+#manipuilate from F to C, will produce a new column, always mutates onto the end of the data  (call up data frame, name the new column = what you want it to equal)
 
 ```
 
@@ -157,15 +186,22 @@ NTL.phys.data.temps <- mutate(NTL.phys.data.temps, temperature_F = (temperature_
 A package that makes coercing date much easier is `lubridate`. A guide to the package can be found at https://lubridate.tidyverse.org/. The cheat sheet within that web page is excellent too. This package can do many things (hint: look into this package if you are having unique date-type issues), but today we will be using two of its functions for our NTL dataset. 
 
 ```{r}
+
+# Lubridate has nice help section for the package 
 # add a month column to the dataset
 NTL.phys.data.PeterPaul1 <- mutate(NTL.phys.data.PeterPaul1, month = month(sampledate)) 
+#create a new column called month, whatever lubridate works on has to be a date already, puts a month column at the end 
 
 # reorder columns to put month with the rest of the date variables
 NTL.phys.data.PeterPaul1 <- select(NTL.phys.data.PeterPaul1, lakeid:daynum, month, sampledate:comments)
+#rearranging order of columns: lake id through daynumber, then month, then sample date through comments 
 
+view<- NTL.phys.data.PeterPaul1
 # find out the start and end dates of the dataset
 interval(NTL.phys.data.PeterPaul1$sampledate[1], NTL.phys.data.PeterPaul1$sampledate[21613])
 interval(first(NTL.phys.data.PeterPaul1$sampledate), last(NTL.phys.data.PeterPaul1$sampledate))
+#find out the first and last sample dates 
+
 ```
 
 
@@ -176,6 +212,7 @@ Sometimes we will want to perform multiple functions on a single dataset on our 
 Let's say we want to take our raw dataset (NTL.phys.data), *then* filter the data for Peter and Paul lakes, *then* select temperature and observation information, and *then* add a column for temperature in Fahrenheit: 
 
 ```{r}
+#pipe operator %operator% - pulls out the name of the data frame and uses the title of it in the first , the pipe means "then" , take the physical data set, "then" do something, "then" do something else, 
 NTL.phys.data.processed <- 
   NTL.phys.data %>%
   filter(lakename == "Paul Lake" | lakename == "Peter Lake") %>%
@@ -189,6 +226,7 @@ Notice that we did not place the dataset name inside the wrangling function but 
 ### Saving processed datasets
 
 ```{r}
+#row names = false, doesn't produce a row of numbers at the beginning 
 write.csv(NTL.phys.data.PeterPaul1, row.names = FALSE, file = "./Data/Processed/NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv")
 ```
 

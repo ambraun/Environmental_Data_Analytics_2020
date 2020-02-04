@@ -48,6 +48,7 @@ At the same time, you should also load your theme if you are doing any data visu
 
 ```{r, message = FALSE}
 # Load package, don't print this on the pdf 
+
 library(tidyverse)
 ```
 

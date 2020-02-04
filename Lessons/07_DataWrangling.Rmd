@@ -16,6 +16,7 @@ editor_options:
 ## Set up your session
 
 ```{r, message = FALSE}
+#load plyr and then dplyr? * conficts sy that dplyr is masking plyr functions 
 getwd()
 library(plyr)
 library(tidyverse)
@@ -35,40 +36,58 @@ class(NTL.phys.data.PeterPaul$sampledate)
 
 # Format sampledate as date
 NTL.phys.data.PeterPaul$sampledate <- as.Date(NTL.phys.data.PeterPaul$sampledate, format = "%Y-%m-%d")
+#four digit year - month - day, remember to verify that it shows up as a date 
 
 # Select Peter and Paul Lakes from the nutrient dataset
 NTL.nutrient.data.PeterPaul <- filter(NTL.nutrient.data, lakename == "Paul Lake" | lakename == "Peter Lake")
+#filter nutrient data set to show just Peter OR Paul (both lake names) OR
+
+NTL.nutrient.data.PeterPaul <-
+    NTL.nutrient.data %<%
+#etc to use a pipe
 
 # Data summaries for nutrient data
 colnames(NTL.nutrient.data.PeterPaul)
 dim(NTL.nutrient.data.PeterPaul)
 str(NTL.nutrient.data.PeterPaul)
 summary(NTL.nutrient.data.PeterPaul$lakename) 
-# Notice that other lake names didn't go away, even though they have zero values
+# Notice that other lake names didn't go away, even though they have zero values, a way to get around that is to use function droplevels
 NTL.nutrient.data.PeterPaul <- droplevels(NTL.nutrient.data.PeterPaul)
+#only includes Peter and Paul #what? 
 summary(NTL.nutrient.data.PeterPaul$lakename)
 summary(NTL.nutrient.data.PeterPaul$comments)
+#looking for comments - none, in this instance 
 class(NTL.nutrient.data.PeterPaul$sampledate)
-NTL.nutrient.data.PeterPaul$sampledate <- as.Date(NTL.nutrient.data.PeterPaul$sampledate, format = "%m/%d/%y")
+NTL.nutrient.data.PeterPaul$sampledate <- as.Date(NTL.nutrient.data.PeterPaul$sampledate, format = "%m/%d/%y") 
+#telling R the format it came in 
 
 NTL.nutrient.data.PeterPaul <- 
   NTL.nutrient.data.PeterPaul %>% #
   mutate(month = month(sampledate)) %>% #
+  #telling how to order the columns 
   select(lakeid:daynum, month, sampledate:comments) %>% # 
   drop_na(depth)
+  #drop na values for the depth column
 
 # Save processed nutrient file
 write.csv(NTL.nutrient.data.PeterPaul, row.names = FALSE, 
           file = "./Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaul_Processed.csv")
+#saving the file without the NA values - because you want the nutrients at a certain depth, there will still be NAs in the dataset, but not in the depth column 
+
 
 # Remove columns that are not of interest for analysis
 NTL.phys.data.PeterPaul.subset <- select(NTL.phys.data.PeterPaul, 
                                          lakename:irradianceDeck)
+#create subset with only columns of interest 
   
 NTL.nutrient.data.PeterPaul.subset <- select(NTL.nutrient.data.PeterPaul, 
                                              lakename, year4, daynum, month, sampledate, depth:po4)
 
 # write a more succinct line of code to subset the nutrient dataset. 
+NTL.nutrient.data.PeterPaul1.subset <-select(NTL.ntrient.data.PeterPaul, lakename:sampledate, depth:po4)
+
+NTL.nutrient.data.PeterPaul1.subset <- select(NTL.nutrient.data.PeterPaul, -lakeid, -depth_id, -comments)
+
 
 ```
 
@@ -85,9 +104,11 @@ However, there may be situations where we want to reshape our dataset, for examp
 Note: `tidyr` is moving away from `gather` and `spread` and toward `pivot_longer` and `pivot_wider`, respectively. Note that the latter functions are only available on the newest version of `tidyr`, so we are using `spread` and `gather` today to ensure compatibility. `gather` and `spread` are not going away, but they are not under active development.
 
 ```{r}
+#gather will make longer data set, spread will make it wider, spread and gather not under active development 
 # Gather nutrient data into one column
 NTL.nutrient.data.PeterPaul.gathered <- gather(NTL.nutrient.data.PeterPaul.subset, "nutrient", "concentration", tn_ug:po4)
 NTL.nutrient.data.PeterPaul.gathered <- subset(NTL.nutrient.data.PeterPaul.gathered, !is.na(concentration))
+#subset dataframe to remove all NAS from the concentration column, remove rows to 
 count(NTL.nutrient.data.PeterPaul.gathered, nutrient)
 
 write.csv(NTL.nutrient.data.PeterPaul.gathered, row.names = FALSE, 
@@ -100,6 +121,7 @@ NTL.nutrient.data.PeterPaul.spread <- spread(NTL.nutrient.data.PeterPaul.gathere
 # Opposite of 'separate' is 'unite'
 NTL.nutrient.data.PeterPaul.dates <- separate(NTL.nutrient.data.PeterPaul.subset, sampledate, c("Y", "m", "d"))
 
+#grab from sample date column and separate it out into Y,M, and D 
 # I recommend using lubridate rather than separate and unite.
 
 ```
@@ -110,18 +132,20 @@ NTL.nutrient.data.PeterPaul.dates <- separate(NTL.nutrient.data.PeterPaul.subset
 In many cases, we will want to combine datasets into one dataset. If all column names match, the data frames can be combined with the `rbind` function. If some column names match and some column names don't match, we can combine the data frames using a "join" function according to common conditions that exist in the matching columns. We will demonstrate this with the NTL-LTER physical and nutrient datasets, where we have specific instances when physical and nutrient data were collected on the same date, at the same lake, and at the same depth. 
 
 In dplyr, there are several types of join functions: 
-
-* `inner_join`: return rows in x where there are matching values in y, and all columns in x and y (mutating join).
-* `semi_join`: return all rows from x where there are matching values in  y, keeping just columns from x (filtering join).
-* `left_join`: return all rows from x, and all columns from x and y (mutating join).
+X on left, Y on right 
+* `inner_join`: return rows in x where there are matching values in y, and all columns in x and y (mutating join). mutate - bring together?
+* `semi_join`: return all rows from x where there are matching values in  y, keeping just columns from x (filtering join). 
+* `left_join`: return all rows from x, and all columns from x and y (mutating join). add on right dataset whenever it matches left dataset? 
 * `anti_join`: return all rows from x where there are *not* matching values in y, keeping just columns from x (filtering join).
-* `full_join`: return all rows and all columns from x and y. Returns NA for missing values (mutating join).
+* `full_join`: return all rows and all columns from x and y. Returns NA for missing values, when they don't match up (mutating join).
 
 Let's say we want to generate a new dataset that contains all possible physical and chemical data for Peter and Paul Lakes. In this case, we want to do a full join.
 
 ```{r}
 
 NTL.phys.nutrient.data.PeterPaul <- full_join(NTL.phys.data.PeterPaul.subset, NTL.nutrient.data.PeterPaul.subset)
+#bringing together physical and nutrient data 
+#returns column names that are present in both data frames, in certain scenarios you might need to tell it which columns you want it to join by 
 
 write.csv(NTL.phys.nutrient.data.PeterPaul, row.names = FALSE, 
           file ="./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
@@ -136,8 +160,10 @@ The Niwot Ridge litter dataset, when downloaded from NEON, comes packaged with e
 Litter.June2016 <- read.csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2016-06_raw.csv")
 Litter.July2016 <- read.csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2016-07_raw.csv")
 Litter.August2016 <- read.csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2016-08_raw.csv")
+#read them all separately 
 
 Litter.2019 <- rbind(Litter.June2016, Litter.July2016, Litter.August2016)
+#binding your rows, stacking them all together, data seta all have the same column names 
 ```
 
 However, there are 20 months in this dataset, so importing all these files individually would be tedious to code. Here is a more efficient way to import and combine all files.
@@ -145,9 +171,12 @@ However, there are 20 months in this dataset, so importing all these files indiv
 ```{r}
 LitterFiles = list.files(path = "./Data/Raw/NIWO_Litter/", pattern="*.csv", full.names=TRUE)
 LitterFiles
+#pointed to NiwoLitter folder, look for a pattern where it is called "something' csv, full.names = TRUE, input as value 
 
 Litter <- LitterFiles %>%
   ldply(read.csv)
+
+#what is this doing? make a new data file called litter, within a pipe read.csv means read anything that is a CSV file 
 ```
 
 We also have information about individual traps, including the location and type of landcover. Let's join these two datasets. Note that "siteID", "plotID" and "trapID" exist in both datasets, and we can join them by these conditions. Notice the dimensions of the final dataset.
@@ -155,9 +184,13 @@ We also have information about individual traps, including the location and type
 Trap <- read.csv("./Data/Raw/NEON_NIWO_Litter_trapdata_raw.csv")
 LitterTrap <- left_join(Litter, Trap, by = c("siteID", "plotID", "trapID"))
 
+#telling the join file which of those to join by, scary red warning is ok 
+
 dim(Litter)
 dim(Trap)
 dim(LitterTrap)
+
+#dimensions differ because it added more columns, domainid.y column and domainid.x 
 
 LitterTrap <- LitterTrap %>%
   select(plotID:trapID, collectDate, functionalGroup:qaDryMass, subplotID:geodeticDatum)
@@ -183,8 +216,11 @@ NTL.PeterPaul.summaries <-
             meanTP = mean(tp_ug), 
             sdTP = sd(tp_ug))
 
+#summarise to create new colunmns in the data frame, 
+
 write.csv(NTL.PeterPaul.summaries, row.names = FALSE, 
           file ="./Data/Processed/NTL-LTER_Lake_Summaries_PeterPaul_Processed.csv")
+#only works in plyr to do this and not dplyr?
 
 ```
 
