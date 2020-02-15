@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5: Data Visualization"
-author: "Student Name"
+author: "Amanda Braun"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -29,17 +29,37 @@ The completed exercise is due on Tuesday, February 11 at 1:00 pm.
 
 ```{r}
 #1
+getwd()
+library(tidyverse)
+library(cowplot)
 
+NT_LTER_Chemistry_PPLakes <- read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
+
+NT_LTER_Nutrients_PPLake <- read.csv("./Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaulGathered_Processed.csv")
+
+NiwotRidge_Litter_Processed <-read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
 
 #2
+class(NT_LTER_Chemistry_PPLakes$sampledate)
+NT_LTER_Chemistry_PPLakes$sampledate <- as.Date(NT_LTER_Chemistry_PPLakes$sampledate, format = "%Y-%m-%d")
+class(NT_LTER_Chemistry_PPLakes$sampledate)
 
+class(NT_LTER_Nutrients_PPLake$sampledate) 
+NT_LTER_Nutrients_PPLake$sampledate <- as.Date(NT_LTER_Nutrients_PPLake$sampledate, format = "%Y-%m-%d")
+class(NT_LTER_Nutrients_PPLake$sampledate) 
+
+class(NiwotRidge_Litter_Processed$collectDate)
+NiwotRidge_Litter_Processed$collectDate <- as.Date(NiwotRidge_Litter_Processed$collectDate, format = "%Y-%m-%d")
+class(NiwotRidge_Litter_Processed$collectDate)
 
 ```
 ## Define your theme
 3. Build a theme and set it as your default theme.
 
 ```{r}
-
+amandastheme <- theme_classic(base_size = 14) + 
+  theme(axis.text = element_text(color = "blue"), legend.position = "top")
+theme_set(amandastheme)
 
 ```
 
@@ -49,7 +69,15 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 4. [NTL-LTER] Plot total phosphorus by phosphate, with separate aesthetics for Peter and Paul lakes. Add a line of best fit and color it black. Adjust your axes to hide extreme values.
 
 ```{r}
+NT_LTER_Chemistry_PPLakes <- drop_na(NT_LTER_Chemistry_PPLakes, po4, tp_ug) 
 
+plot1 <-ggplot(NT_LTER_Chemistry_PPLakes, aes(x = tp_ug, y = po4, color = lakename))+
+  geom_point() +
+  xlim(0,100) +
+  ylim(0, 30)+
+  geom_smooth(method = lm, color = "black")+
+  labs(x = expression("Total Phosphorous" ~ (mu*g / L)), y = "Phosphate", color = "")
+print(plot1)
 
 
 ```
@@ -58,24 +86,72 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 5. [NTL-LTER] Make three separate boxplots of (a) temperature, (b) TP, and (c) TN, with month as the x axis and lake as a color aesthetic. Then, create a cowplot that combines the three graphs. Make sure that only one legend is present and that graph axes are aligned.
 
 ```{r}
+tempplot <- ggplot(NT_LTER_Chemistry_PPLakes, aes(x = as.factor(month), y = temperature_C)) +
+  geom_boxplot(aes(color = lakename)) +
+  labs(x = "Month", y = "Temp C", color = "") 
+print(tempplot)
 
+TNplot <- ggplot(NT_LTER_Chemistry_PPLakes, aes(x = as.factor(month), y = tn_ug)) +
+  geom_boxplot(aes(color = lakename)) +
+    labs(x = "Month", y = "Total Nitrogen ug", color = "") 
+print(TNplot)
+
+TPplot <- ggplot(NT_LTER_Chemistry_PPLakes, aes(x = as.factor(month), y = tp_ug)) +
+  geom_boxplot(aes(color = lakename)) +
+  theme(legend.position = "bottom") +
+      labs(x = "Month", y = "Total Phosphorous ug", color = "") 
+print(TPplot)
+
+tempplot2 <- ggplot(NT_LTER_Chemistry_PPLakes, aes(x = as.factor(month), y = temperature_C)) +
+  geom_boxplot(aes(color = lakename)) +
+  labs(x = "Month", y = "Temp C", color = "")+
+  theme(legend.position = "bottom") +
+ylim(0,20)
+
+TNplot2 <- ggplot(NT_LTER_Chemistry_PPLakes, aes(x = as.factor(month), y = tn_ug)) +
+  geom_boxplot(aes(color = lakename)) +
+  theme(legend.position="none") +
+    labs(x = "", y = "Total N ug", color = "") +
+  ylim(0, 500)
+
+TPplot2 <- ggplot(NT_LTER_Chemistry_PPLakes, aes (x = as.factor(month), y = tp_ug)) +
+  geom_boxplot(aes(color = lakename)) +
+      theme(legend.position = "none") +
+      labs(x = "", y = "Total P ug", color = "") +
+        ylim(0, 8) 
+
+TempTPTNCowplot <- plot_grid(TPplot2, TNplot2, tempplot2, align = 'v', ncol = 1) 
+print(TempTPTNCowplot)
 
 ```
 
 Question: What do you observe about the variables of interest over seasons and between lakes? 
 
-> Answer: 
+> Answer: Paul Lake experiences  Nitrogen and Phosphorous levels are only observed during the months from May to October when the lake is not frozen. Peter Lake  experiences higher slightly total nitrogen levels than Paul Lake. Paul Lake generally experiences slightly higher total phosphorous levels than Peter Lake. 
 
 6. [Niwot Ridge] Plot a subset of the litter dataset by displaying only the "Needles" functional group. Plot the dry mass of needle litter by date and separate by NLCD class with a color aesthetic. (no need to adjust the name of each land use)
 
 7. [Niwot Ridge] Now, plot the same plot but with NLCD classes separated into three facets rather than separated by color. 
 
 ```{r}
-
-
+NeedlesPlot <- 
+  ggplot(subset(NiwotRidge_Litter_Processed, functionalGroup == "Needles"), 
+         aes(x = collectDate, y = dryMass, color = nlcdClass)) +
+  labs(x = "Date", y = "Dry Mass, Grams", color = "") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_point()
+print(NeedlesPlot)
+ 
+ NeedlesPlotFaceted <-
+  ggplot(subset(NiwotRidge_Litter_Processed, functionalGroup == "Needles")) +
+   aes(x = collectDate, y = dryMass) +
+  labs(x = "Date", y = "Dry Mass, Grams ", color = "") +
+  geom_point() +
+ facet_wrap(vars(nlcdClass), nrow = 3)
+print(NeedlesPlotFaceted)
 
 ```
 
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
-> Answer: 
+> Answer: I think that plot 7 is a more effective visualization of needle dry mass of different functional groups. It's eaiser to compare relative grouping weights and and spread between the functonal groups in the faceted plot than in 7 than in 6. Because the data points from the three different functional groups share many of the same values, it is hard to pull trends from plot 6. 
