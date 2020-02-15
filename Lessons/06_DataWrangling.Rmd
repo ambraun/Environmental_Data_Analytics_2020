@@ -25,7 +25,7 @@ Opening discussion: why might we be interested in long-term observations of temp
 getwd()
 library(tidyverse)
 
-#install.packages(lubridate), cant knit with an install packages line 
+#install.packages('lubridate')
 
 library(lubridate)
 
@@ -44,6 +44,8 @@ dim(NTL.phys.data) #38614 rows, 11 columns
 class(NTL.phys.data$sampledate)
 # Format sampledate as date
 NTL.phys.data$sampledate <- as.Date(NTL.phys.data$sampledate, format = "%m/%d/%y")
+class(NTL.phys.data$sampledate)
+
 #formatting it how it is 
 ```
 
@@ -62,7 +64,10 @@ What is the best way to wrangle data? There are multiple ways to arrive at a spe
 `dplyr` is a package in R that includes functions for data manipulation (i.e., data wrangling or data munging). `dplyr` is included in the tidyverse package, so you should already have it installed on your machine. The functions act as verbs for data wrangling processes. For more information, run this line of code. Vignette comes up in Help Window. Tidy verse functions have cheat sheet. results = hide, makes it not appear when you knit 
 
 ```{r, results = "hide"}
+### results = "hide" makes it does vignette doesn't appear in final knit PDF document 
 vignette("dplyr")
+### document that goes through main function and examples of how to use each function 
+### a lot of tidyvers functions also have cheat sheets 
 ```
 
 ### Filter
@@ -87,7 +92,8 @@ class(NTL.phys.data$depth)
 
 # matrix filtering
 NTL.phys.data.surface1 <- NTL.phys.data[NTL.phys.data$depth == 0,]
-#within the matrix, select depth where rows = 0, in matrix notation specific rows and columns need to put comma to signify you want columns 
+### just surface depths (zero)
+### in matrix notation, must include comma so that it indicates every column 
 
 # dplyr filtering
 NTL.phys.data.surface2 <- filter(NTL.phys.data, depth == 0)

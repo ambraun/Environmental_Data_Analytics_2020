@@ -39,6 +39,7 @@ Does total litter biomass differ among sites at the Niwot Ridge LTER?
 Litter.Totals <- Litter %>%
   group_by(plotID, collectDate, nlcdClass) %>%
   summarise(dryMass = sum(dryMass))
+#nlcd class is for later, regardless of functional group, sum dry mass for each set anything that was in group by or summarise function is in the new table 
 
 # Test for normality. 
 # Note: the important assumption for GLMs is normality of residuals, 

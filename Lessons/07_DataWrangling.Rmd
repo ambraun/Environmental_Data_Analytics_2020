@@ -62,7 +62,7 @@ NTL.nutrient.data.PeterPaul$sampledate <- as.Date(NTL.nutrient.data.PeterPaul$sa
 #telling R the format it came in 
 
 NTL.nutrient.data.PeterPaul <- 
-  NTL.nutrient.data.PeterPaul %>% #
+  NTL.nutrient.data.PeterPaul %>% 
   mutate(month = month(sampledate)) %>% #
   #telling how to order the columns 
   select(lakeid:daynum, month, sampledate:comments) %>% # 
@@ -163,7 +163,7 @@ Litter.August2016 <- read.csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_
 #read them all separately 
 
 Litter.2019 <- rbind(Litter.June2016, Litter.July2016, Litter.August2016)
-#binding your rows, stacking them all together, data seta all have the same column names 
+#binding your rows, stacking them all together, data set all have the same column names 
 ```
 
 However, there are 20 months in this dataset, so importing all these files individually would be tedious to code. Here is a more efficient way to import and combine all files.
@@ -216,7 +216,7 @@ NTL.PeterPaul.summaries <-
             meanTP = mean(tp_ug), 
             sdTP = sd(tp_ug))
 
-#summarise to create new colunmns in the data frame, 
+#summarise to create new columns in the data frame, 
 
 write.csv(NTL.PeterPaul.summaries, row.names = FALSE, 
           file ="./Data/Processed/NTL-LTER_Lake_Summaries_PeterPaul_Processed.csv")
