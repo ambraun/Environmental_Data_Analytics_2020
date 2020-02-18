@@ -36,15 +36,23 @@ The one-sample test (model of the mean), two-sample t-test, analysis of variance
 
 ### Choosing a model from your data: A "cheat sheet"
 
-**T-test:** Continuous response, one categorical explanatory variable with two categories (or comparison to a single value if a one-sample test).
+Continuous Variable. If a variable can take on any value between its minimum value and its maximum value, it is called a continuous variable; otherwise, it is called a discrete variable. ... Therefore, the number of heads must be a discrete variable.
 
+**T-test:** Continuous response, one categorical explanatory variable with two categories (or comparison to a single value if a one-sample test).
+One-Sample t-Test. A one-sample t-test is used to test whether a population mean is significantly different from some hypothesized value.
+A two-sample t-test is used to test the difference between two population means. A common application is to determine whether the means are equal.
+
+ANOVA stands for analysis of variance and tests for differences in the effects of independent variables on a dependent variable.
 **One-way ANOVA (Analysis of Variance):** Continuous response, one categorical explanatory variable with more than two categories.
+The one-way analysis of variance (ANOVA) is used to determine whether there are any statistically significant differences between the means of two or more independent (unrelated) groups.
 
 **Two-way ANOVA (Analysis of Variance)** Continuous response, two categorical explanatory variables.
+A two-way ANOVA test is a statistical test used to determine the effect of two nominal predictor variables on a continuous outcome variable. A two-way ANOVA tests the effect of two independent variables on a dependent variable. A two-way ANOVA test analyzes the effect of the independent variables on the expected outcome along with their relationship to the outcome itself.
 
 **Single Linear Regression** Continuous response, one continuous explanatory variable.
+Simple linear regression is a statistical method that allows us to summarize and study relationships between two continuous (quantitative) variables: ... The other variable, denoted y, is regarded as the response, outcome, or dependent variable. A linear regression line has an equation of the form Y = a + bX, where X is the explanatory variable and Y is the dependent variable.
 
-**Multiple Linear Regression** Continuous response, two or more continuous explanatory variables.
+**Multiple Linear Regression** Continuous response, two or more continuous explanatory variables.Multiple regression is an extension of simple linear regression. It is used when we want to predict the value of a variable based on the value of two or more other variables. The variable we want to predict is called the dependent variable (or sometimes, the outcome, target or criterion variable).
 
 **ANCOVA (Analysis of Covariance)** Continuous response, categorical explanatory variable(s) and  continuous explanatory variable(s).
 
@@ -54,9 +62,17 @@ If multiple explanatory variables are chosen, they may be analyzed with respect 
 
 The GLM is based on the assumption that the data residuals approximate a normal distribution (or a linearly transformed normal distribution). We will discuss the non-parametric analogues to several of these tests if the assumptions of normality are violated. For tests that analyze categorical explanatory variables, the assumption is that the variance in the response variable is equal among groups. Note: environmental data often violate the assumptions of normality and equal variance, and we will often proceed with a GLM even if these assumptions are violated. In this situation, justifying the decision to proceed with a linear model must be made. 
 
+Nonparametric statistics refer to a statistical method in which the data is not required to fit a normal distribution. Nonparametric statistics uses data that is often ordinal, meaning it does not rely on numbers, but rather on a ranking or order of sorts.
+
 ## T-Test
 ### One-sample t-test
 The object of a one sample test is to test the null hypothesis that the mean of the group is equal to a specific value. For example, we might ask ourselves (from the EPA air quality processed dataset): 
+
+In statistics, the p-value is the probability of obtaining the observed results of a test, assuming that the null hypothesis is correct. ... A smaller p-value means that there is stronger evidence in favor of the alternative hypothesis
+
+In statistical hypothesis testing, the p-value or probability value is the probability of obtaining test results at least as extreme as the results actually observed during the test, assuming that the null hypothesis is correct
+
+The Shapiro-Wilk test is a way to tell if a random sample comes from a normal distribution. The test gives you a W value; small values indicate your sample is not normally distributed (you can reject the null hypothesis that your population is normally distributed if your values are under a certain threshold).
 
 Are Ozone levels below the threshold for "good" AQI index (0-50)?
 
@@ -68,17 +84,23 @@ summary(EPAair$Ozone)
 
 EPAair.subsample <- sample_n(EPAair, 5000)
 
+### why don't we just use the total number of observations?
+
 # Evaluate assumption of normal distribution
 shapiro.test((EPAair.subsample$Ozone))
 ggplot(EPAair, aes(x = Ozone)) +
   geom_histogram() 
 qqnorm(EPAair$Ozone); qqline(EPAair$Ozone)
 
-#qqline shows what a normal distribution would look like 
-#verify that our data is not fit on a normal T (?) plot 
+### what is the W value, and how do we know what to compare it to?, 
+
+##qqline shows what a normal distribution would look like 
+##verify that our data is not fit on a normal plot 
 
 O3.onesample <- t.test(EPAair$Ozone, mu = 50, alternative = "less")
 O3.onesample
+
+###what is the t-statistic and what does it mean? what are degrees of freedom? what is considerd a small pvalue?
 
 #t.test runs t test, give it one column in data frame, comparing a mu (mean) of 50,   alternative hypothesis is that mean is less than 50 
 
@@ -93,11 +115,12 @@ print(Ozone.plot)
 #last line of code specifies using origin for the starting point 
 #majority of samples are less than 50 
 
-#better to include this type of plot in a report, not a Q test 
+#better to include this type of plot in a report, not a test statistic 
 
 #geomdensity (state = "count") shows the actual count, based on how thick you want the bins to be 
 
-#geomdensity(fill = "Gray") moving average of the distribution, smoothing across the dataset 
+###geomdensity(fill = "Gray") moving average of the distribution, smoothing across the dataset, what does that mean?
+
 
 ```
 
@@ -113,8 +136,10 @@ The two-sample *t* test is used to test the hypothesis that the mean of two samp
 shapiro.test(EPAair$Ozone[EPAair$Year == 2018])
 shapiro.test(EPAair$Ozone[EPAair$Year == 2019])
 var.test(EPAair$Ozone ~ EPAair$Year)
+
+###I dont understand this syntax of this line 
 #subset square brackts where year = 2018, example of matrix subsetting 
-#not normal distribution because p values are very low 
+###not normal distribution because p values are very low - is this true?
 # tilde ~ means "BY" 
 #var.test gives ratio of variances, variances are significantly different from each other 
 #violated the assumption of equal variance 
@@ -123,6 +148,7 @@ ggplot(EPAair, aes(x = Ozone, color = as.factor(Year))) +
   geom_freqpoly()
 
 #as.factor = year is listed as character or numeric, as.factor counts year as a factor instead of a continuous variable 
+#the color is years from the year column as a factor 
 
 # Format as a t-test
 O3.twosample <- t.test(EPAair$Ozone ~ EPAair$Year)
@@ -130,7 +156,7 @@ O3.twosample
 O3.twosample$p.value
 #instead of comparing to a mu, comparing Ozone by Year, we're not testing an alternative hypothesis 
 #Welch Two Sample T-Test Data produced, df = degrees of freedom, metric of effective sample size 
-#p-value - can grab a specific element from a test, instead of the whole output of the t.test 
+# last line $p-value - can grab a specific element from a test, instead of the whole output of the t.test 
 
 # Format as a GLM
 O3.twosample2 <- lm(EPAair$Ozone ~ EPAair$Year)
@@ -142,7 +168,10 @@ summary(O3.twosample2)
 plot(O3.twosample2)
 par(mfrow = c(2,2))
 #c 2 rows, 2 columns, changes the way R displays your plot 
-#
+
+###what does that last line mean?? what does any of this mean?
+###what are standardized residuals?
+##The Standardized Residual is defined as the Residual divided by its standard deviation, where the residual is the difference between the data response and the fitted response.
 ```
 
 ### Non-parametric equivalent of t-test: Wilcoxon test
@@ -151,10 +180,12 @@ When we wish to avoid the assumption of normality, we can apply *distribution-fr
 
 ```{r}
 O3.onesample.wilcox <- wilcox.test(EPAair$Ozone, mu = 50, alternative = "less")
-#less statistical robustness compared to above, get whether alternative hypothesis is supported or not 
 O3.onesample.wilcox
+#less statistical robustness compared to above, get whether alternative hypothesis is supported or not 
+###what are standardized residuals? What is cook's distance?
 #V result
-O3.twosample.wilcox <- wilcox.test(EPAair$Ozone ~ EPAair$Year)
+
+twosample.wilcox <- wilcox.test(EPAair$Ozone ~ EPAair$Year)
 # W result 
 O3.twosample.wilcox
 ```
@@ -173,7 +204,7 @@ Ozone.plot2 <- ggplot(EPAair, x = Ozone, y = as.factor(Year)) +
 print(Ozone.plot2)
 Ozone.plot <- ggplot(EPAair, aes(x = Ozone)) +
   geom_density(stat = "count", fill = "gray")
-print(Ozone.plot)
+print(Ozone.plot2)
 ```
 
 Now, write a summary of your findings, incorporating statistical output, reference to the figure(s), and a contextual interpretation.

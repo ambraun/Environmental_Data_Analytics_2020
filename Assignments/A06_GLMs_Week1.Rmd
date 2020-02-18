@@ -29,10 +29,17 @@ The completed exercise is due on Tuesday, February 18 at 1:00 pm.
 
 ```{r, message = FALSE}
 #1
+getwd()
+library(tidyverse)
+library(cowplot)
+library(agricolae)
 
+PP_Nutrient_Processed <- read.csv("./Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaul_Processed.csv")
 
 #2
-
+PP_Nutrient_Processed$sampledate <- as.Date(PP_Nutrient_Processed$sampledate, format = "%Y-%m-%d")
+head(PP_Nutrient_Processed$sampledate)
+class(PP_Nutrient_Processed$sampledate)
 ```
 
 
@@ -40,8 +47,14 @@ The completed exercise is due on Tuesday, February 18 at 1:00 pm.
 
 3. Wrangle your dataset so that it contains only surface depths and only the years 1993-1996, inclusive. Set month as a factor.
 ```{r}
+NT.PeterPaul.SurfaceDepths.1993.1996 <- PP_Nutrient_Processed  %>%
+  filter(depth == 0) %>%
+  filter(year4 == "1993" | year4 == "1994" | year4 == "1995" | year4 == "1996")
 
+NT.PeterPaul.SurfaceDepths.1993.1996$month <-factor (NT.PeterPaul.SurfaceDepths.1993.1996$month)
 
+#factor makes the numbers a category, so you're able to use month as categories as predictors for a continuous variable 
+  
 ```
 
 ## Analysis
@@ -50,7 +63,8 @@ Peter Lake was manipulated with additions of nitrogen and phosphorus over the ye
 
 4. Which application of the GLM will you use (t-test, one-way ANOVA, two-way ANOVA with main effects, or two-way ANOVA with interaction effects)? Justify your choice.
 
-> Answer: 
+> Answer:  A two-way anova with interactions should be used  to investigate the interaction of two different categorical variables (months to represent seasonality, and lake name) on the continuous response variable (total nitrogen or total phosphorous). We are testing to see if there is a significant interaction between the two categorial variables. 
+
 
 5. Run your test for TN. Include examination of groupings and consider interaction effects, if relevant.
 
@@ -58,9 +72,19 @@ Peter Lake was manipulated with additions of nitrogen and phosphorus over the ye
 
 ```{r}
 #5
-
+TN.SurfaceDepths.2wayanova.nitrogen <- aov(data = NT.PeterPaul.SurfaceDepths.1993.1996, tn_ug ~ lakename * month)
+summary(TN.SurfaceDepths.2wayanova.nitrogen)
+TukeyHSD(TN.SurfaceDepths.2wayanova.nitrogen)
 
 #6
+TP.SurfaceDepths.2wayanova <- aov(data = NT.PeterPaul.SurfaceDepths.1993.1996, tn_ug ~ lakename * month)
+summary(TP.SurfaceDepths.2wayanova)
+TukeyHSD(TP.SurfaceDepths.2wayanova)
+Lake.Season.interaction <- with(NT.PeterPaul.SurfaceDepths.1993.1996, interaction(lakename, month))
+Peter.Paul.anova.phosphorous <- aov(data = NT.PeterPaul.SurfaceDepths.1993.1996, tp_ug ~ Lake.Season.interaction)
+Peter.Paul.Phosphorous.groups <- HSD.test(Peter.Paul.anova.phosphorous, "Lake.Season.interaction", group = TRUE)
+Peter.Paul.Phosphorous.groups
+
 
 
 ```
@@ -71,11 +95,52 @@ Peter Lake was manipulated with additions of nitrogen and phosphorus over the ye
 
 ```{r}
 #7
+tnplot <- ggplot(NT.PeterPaul.SurfaceDepths.1993.1996,  aes(x = as.factor(month), y = tn_ug, colour = lakename)) +
+  geom_boxplot() +
+  labs(x = "month", y = expression(paste("TN (", mu, "g/L)")), colour = " ") + 
+  scale_color_viridis_d(option = "magma", begin = 0.3, end = 0.8) +
+  ylim(0, 1000) +
+  theme(legend.position = "right") + 
+    stat_summary(geom = "text", fun.y = max, vjust = -1, hjust = 1, size = 3.5,
+              label = c("a", "b", "a", "b", "a", "b", 
+                         "a", "b", "a", "b"), position = position_dodge(0.75), show.legend = FALSE)
+print(tnplot)
 
+tpplot <- ggplot(NT.PeterPaul.SurfaceDepths.1993.1996,  aes(x = month, y = tp_ug, colour = lakename)) +
+  geom_boxplot() +
+  labs(x = "Month", y = expression(paste("TP (", mu, "g/L)")), colour = " ") + 
+  scale_color_viridis_d(option = "magma", begin = 0.3, end = 0.8) +
+  ylim(0, 75) +
+  theme(legend.position = "right") + 
+  stat_summary(geom = "text", fun.y = max, vjust = -1, hjust = 1, size = 3.5,
+               label = c("cd", "bcd", "d", "ab", "d", "a", "d", "abc", "abcd", "cd"), show.legend = FALSE) 
+print(tpplot)
 
 #8
 
-```
+tnplot2 <- ggplot(NT.PeterPaul.SurfaceDepths.1993.1996,  aes(x = as.factor(month), y = tn_ug, colour = lakename)) +
+  geom_boxplot() +
+  labs(x = "", y = expression(paste("TN (", mu, "g/L)")), colour = " ") + 
+  scale_color_viridis_d(option = "magma", begin = 0.3, end = 0.8) +
+  ylim(0, 1000) +
+  theme(legend.position = "top") + 
+    stat_summary(geom = "text", fun.y = max, vjust = -1, hjust = 1, size = 3.5,
+              label = c("a", "b", "a", "b", "a", "b", 
+                         "a", "b", "a", "b"), show.legend = FALSE) 
+
+tpplot2 <- ggplot(NT.PeterPaul.SurfaceDepths.1993.1996,  aes(x = month, y = tp_ug, colour = lakename)) +
+  geom_boxplot() +
+  labs(x = "Month", y = expression(paste("TP (", mu, "g/L)")), colour = " ") + 
+  scale_color_viridis_d(option = "magma", begin = 0.3, end = 0.8) +
+  ylim(0, 75) +
+  theme(legend.position = "none") + 
+  stat_summary(geom = "text", fun.y = max, vjust = -1, hjust = 1, size = 3.5,
+               label = c("cd", "bcd", "d", "ab", "d", "a", "d", "abc", "abcd", "cd"), show.legend = FALSE)
+
+plot_grid(tnplot2, tpplot2,  nrow = 2 , align = "v", rel_heights = c(1.25, 1, 1))
+print(plot_grid)
+
+ ```
 
 
 

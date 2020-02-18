@@ -50,6 +50,8 @@ O3plot2 <- ggplot(EPAair) +
   theme_bw()
 print(O3plot2)
 
+## Theme_bw includes dark line all around plot and light line to show dif. units of axis
+
 O3plot3 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
   theme_light()
@@ -74,18 +76,29 @@ mytheme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "black"), 
         legend.position = "top") #alternative: legend.position + legend.justification
 
-# options: call the theme in each plot or set the theme at the start. 
+## Says: start with theme_classic, make base size 14, plus change things aside from general theme like ax____
+
+## Can add "my_theme" to any plot
+# options: call the theme in each plot or set the theme at the start
 
 O3plot5 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
   mytheme
 print(O3plot5)  
 
+## colors on tickmarks are black, text is a little bigger but overall pulling from theme_classic.
+
 theme_set(mytheme)
+# can use this to set it as theme at beginning of session and then all plots will use it so you don't h___
 
 O3plot6 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone))
 print(O3plot6)  
+
+## so now this runs with all the elements of "my_theme" without having to write it in code
+## help function has a lot of info on different elements you can change
+## designated as "large gg" in 'Environment' because we used a theme, but shows up regular once theme is
+## text size is a common thing to change (figure for paper vs. presentation will necessitate different f
 
 ```
 
@@ -106,6 +119,18 @@ O3plot7 <- ggplot(EPAair, aes(x = Date, y = Ozone)) +
   ylab(expression("O"[3]* " AQI Value")) +
   theme(axis.text.x = element_text(angle = 45,  hjust = 1))
 print(O3plot7)  
+
+## New plot includes: Same things as before in first line of code followed by several layers
+## AQI values are set to standard scale across all different pollutants thats associated with 'good' 'hea
+## geom_hline: lty means line type. lty = 2 means dashed line. can also adjust thickness.
+## geom_point aesthetic added after adding horizontal line because ggplot adds things in layers so it's g______
+## Geom_text: have to specify where you want to put it on plot (x and y coords), where label will be, fon____
+## alpha = .5 means that it's 50% transparent with size 1.5
+## scale_x_date = start and end point. Makes a break every 2/3/4/etc months by saying date_breaks = '2 mo
+## date_labels: %b = 3 letter month, %B = whole month spelled out, %y = 2 digit year
+## ylab = express the units as well. anything within parenthesis will be specified as is and [3] outside
+## Put angle at 45 degrees and hjust = 1 makes it on right side
+
 
 ```
 
@@ -152,9 +177,9 @@ nationalparkcolors (package)
 * https://github.com/katiejolly/nationalparkcolors
 
 ```{r, warning = FALSE}
-# install.packages("viridis")
-# install.packages("RColorBrewer")
-# install.packages("colormap")
+#install.packages("viridis")
+#install.packages("RColorBrewer")
+#install.packages("colormap")
 library(viridis)
 library(RColorBrewer)
 library(colormap)
@@ -175,7 +200,8 @@ print(NvsP)
 NvsP2 <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth, shape = lakename)) +
   geom_point(alpha = 0.7, size = 2.5) +
-  #labs() + # change your legend labels here
+  labs(x = expression(TP ~ (mu*g / L)), y = expression(TN ~ (mu*g / L)),
+       color = "Depth (m)", shape = "") + 
   scale_shape_manual(values = c(15, 17)) +
   #scale_color_distiller(palette = "Blues", direction = 1) + # use scale_color_brewer for discrete variables
   scale_color_viridis(option = "magma", direction = -1) +
@@ -183,20 +209,44 @@ NvsP2 <-
         legend.text = element_text(size = 12), legend.title = element_text(size = 12))
 print(NvsP2)
 
+#  #labs() + # change your legend labels here,  the labs function allows you to relabel anything specified as an aesthetic in the first line
+
+###  what does scale_shape_manual mean? what does scale_color_virdis (direction = -1 )mean?
+### what does labs(shape = "") mean? 
+### what does labs(color = "Depth m)
+
+
 # change your y axis label to list concentration in micrograms per liter
 # remove your x axis label
 # change labels for nutrients in the legend
 # try out the different color palette options and choose one (or edit)
 Nutrientplot <-
   ggplot(PeterPaul.chem.nutrients.gathered, aes(x = lakename, y = concentration, color = nutrient)) +
-  geom_boxplot() +
+    geom_boxplot()+
+    labs(x = "", y = expression(Concentration ~ (mu*g / L)), color = "Nutrient") +
+
 # place your additional edits here
   scale_y_continuous(expand = c(0, 0)) +
+   #scale_color_brewer(palette = "YlGnBu", values = (n = 9)[4:9],
+                   #labels = c(expression(NH[4]^{"+"}), expression(NO[3]^{"-"}),
+                            #  $  expression(PO[4]^{"3-"}), "TN", "TP")) +
+ # scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"),
+#                      labels = c(expression(NH[4]^{"+"}), expression(NO[3]^{"-"}),
+ #                                expression(PO[4]^{"3-"}), "TN", "TP")) +
+  scale_color_viridis(discrete = TRUE, option = "magma", end = 0.8,
+                      labels = c(expression(NH[4]^{"+"}), expression(NO[3]^{"-"}),
+                              expression(PO[4]^{"3-"}), "TN", "TP")) +
+  theme(legend.position = "right")
+print(Nutrientplot)
   #scale_color_brewer(palette = "YlGnBu") +
   #scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84")) +
   #scale_color_viridis(discrete = TRUE, end = 0.8) +
-  theme(legend.position = "right")
 print(Nutrientplot)
+
+##use of [] for subscipt and ^{} for super script 
+
+###what does scale_y_continuous mean? how do you know what inputs to put into each scale_color_virdis 
+
 ```
 
 
@@ -209,6 +259,7 @@ A useful guide for aligning plots by axis can be found here: https://wilkelab.or
 #install.packages("cowplot")
 library(cowplot)
 plot_grid(NvsP2, Nutrientplot, nrow = 2, align = 'h', rel_heights = c(1.25, 1))
+print(plot_grid)
 
 ```
 
@@ -232,11 +283,19 @@ The following graph displays the counts of specific endpoints measured in neonic
 3. Adjust the x axis labels so they appear at a 45 degree angle. 
 4. Change the color and/or border on the bars. Should you have a consistent color across all bars, or a different color for each bar?
 ```{r}
+
 Neonics <- read.csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv")
 ggplot(Neonics) +
   geom_bar(aes(x = Endpoint))
 
+Neonics$Endpoint <- reorder(Neonics$Endpoint, Neonics$Endpoint, FUN = length)
 
+Neonics.plot <- ggplot(Neonics, aes(x = Endpoint)) +
+  geom_bar(fill = "#7fcdbb", color = "black", size = 0.25) +
+  scale_x_discrete(limits = rev(levels(Neonics$Endpoint))) +
+  labs(y = "Number of Publications with reported endpoint") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(Neonics.plot)
 
 
 ```

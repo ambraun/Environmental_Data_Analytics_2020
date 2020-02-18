@@ -185,6 +185,8 @@ NvsP2 <-
         legend.text = element_text(size = 12), legend.title = element_text(size = 12))
 print(NvsP2)
 
+
+
 # change your y axis label to list concentration in micrograms per liter
 # remove your x axis label
 # change labels for nutrients in the legend
