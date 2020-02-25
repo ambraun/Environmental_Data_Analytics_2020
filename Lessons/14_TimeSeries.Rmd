@@ -53,11 +53,11 @@ Analysis of time series presents several opportunities. For environmental data, 
 
 Time series datasets come with several caveats, which need to be addressed in order to effectively model the system. A few common challenges that arise (and can occur together within a single dataset) are: 
 
-* **Autocorrelation**: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s))
-* **Data gaps**: Data are not collected at regular intervals, necessitating *interpolation* between measurements.
-* **Seasonality**: Cyclic patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend.
-* **Heteroscedasticity**: The variance of the time series is not constant over time
-* **Covariance**: the covariance of the time series is not constant over time
+* **Autocorrelation**: Data points are not independent from one another (i.e., the measurement at a given time point is dependent on previous time point(s)) non-indepedence, the predictor of temperature today is a good predictor of the temp tomorrow 
+* **Data gaps**: Data are not collected at regular intervals, necessitating *interpolation* between measurements. does the test necessitate that the data be collected at regular time intervals?
+* **Seasonality**: Cyclic patterns in variables occur at regular intervals, impeding clear interpretation of a monotonic (unidirectional) trend. 
+* **Heteroscedasticity**: The variance of the time series is not constant over time. becomes more variable or less variable over time 
+* **Covariance**: the covariance of the time series is not constant over time, neither increasing or decreasing 
 
 ### Example dataset: Eno River Discharge
 
@@ -78,6 +78,7 @@ Let's start by removing the NAs and splitting the dataset into the early and lat
 ```{r}
 EnoDischarge.complete <- EnoDischarge %>%
   drop_na(discharge.mean)
+#remove NAs from discharge.mean
 
 EnoDischarge.early <- EnoDischarge.complete %>%
   filter(datetime < as.Date("1985-01-01"))
