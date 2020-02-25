@@ -120,7 +120,7 @@ plot(Litter.Totals.anova2)
 ##after anova or another test is run, use another test to do a pair-wise comparison 
 
 TukeyHSD(Litter.Totals.anova)
-#used for pair wise comparisons, run it on aov object, important to run both aov and lm for this reason, gives options for all pair wise differences, looking for pvalues that are less than the something in this case .05, works wel, with few groups, in this case we have 12 different plot IDs 
+#used for pair wise difference comparisons, run it on aov object, important to run both aov and lm for this reason, gives options for all pair wise differences, looking for pvalues that are less than the something in this case .05, works wel, with few groups, in this case we have 12 different plot IDs 
 
 ##gives all options for each pair wise differencs, p value - looking for p values less than the significance level of .05
 

@@ -17,6 +17,7 @@ editor_options:
 ```{r, message = FALSE}
 getwd()
 library(tidyverse)
+library(lubridate)
 options(scipen = 4)
 
 PeterPaul.chem.nutrients <- read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
