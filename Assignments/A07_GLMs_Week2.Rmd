@@ -1,6 +1,6 @@
 ---
 title: "Assignment 7: GLMs week 2 (Linear Regression and beyond)"
-author: "Student Name"
+author: "Amanda Braun "
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -20,6 +20,11 @@ This exercise accompanies the lessons in Environmental Data Analytics on general
 
 The completed exercise is due on Tuesday, February 25 at 1:00 pm.
 
+first part processed, 
+
+na_omit takes out any any data from the entire data frame that has an NA
+na_exclude takes out any NAs from a specific column that you specify 
+
 ## Set up your session 
 1. Set up your session. Check your working directory, load the tidyverse, nlme, and piecewiseSEM packages, import the *raw* NTL-LTER raw data file for chemistry/physics, and import the processed litter dataset. You will not work with dates, so no need to format your date columns this time.
 
@@ -27,6 +32,7 @@ The completed exercise is due on Tuesday, February 25 at 1:00 pm.
 
 ```{r}
 #1
+getwd()
 
 
 #2
@@ -34,7 +40,7 @@ The completed exercise is due on Tuesday, February 25 at 1:00 pm.
 ```
 
 
-## NTL-LTER test
+## NTL-LTER test processed 
 Research question: What is the best set of predictors for lake temperatures in July across the monitoring period at the North Temperate Lakes LTER? 
 
 3. Wrangle your NTL-LTER dataset with a pipe function so that it contains only the following criteria: 
