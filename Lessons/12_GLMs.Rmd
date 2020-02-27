@@ -229,7 +229,7 @@ corrplot.mixed(PeterPaulCorr, upper = "ellipse")
 
 ## AIC to select variables
 
-
+In statistics, the number of degrees of freedom is the number of values in the final calculation of a statistic that are free to vary. The number of independent ways by which a dynamic system can move, without violating any constraint imposed on it, is called number of degrees of freedom.
 
 However, it is possible to over-parameterize a linear model. Adding additional explanatory variables takes away degrees of freedom, and if explanatory variables co-vary the interpretation can become overly complicated. Remember, an ideal statistical model balances simplicity and explanatory power! To help with this tradeoff, we can use the **Akaike's Information Criterion (AIC)** to compute a stepwise regression that either adds explanatory variables from the bottom up or removes explanatory variables from a full set of suggested options. The smaller the AIC value, the better. 
 
@@ -239,17 +239,25 @@ AIC variables are not comparable across different models - couldn't compare tp a
 Works best for complete datasets - use na.omit 
 Paul Lake - natural conditions 
 
-
+#helps us compare model calculations, without being over fitted, only include variables that matter, the smaller the AIC number the better
 ```{r}
+#make a new data frame, has to have complete cases, na.omit within a pipe 
 Paul.naomit <- PeterPaul.chem.nutrients %>%
   filter(lakename == "Paul Lake") %>%
   na.omit()
+#omit rows that contain even one na 
+#create linear model 
 
 TPAIC <- lm(data = Paul.naomit, tp_ug ~ depth + dissolvedOxygen + 
               temperature_C + tn_ug + po4)
 step(TPAIC)
-TPmodel <- lm(data = Paul.naomit, tp_ug ~ dissolvedOxygen + temperature_C + tn_ug)
+TPmodel <- lm(data = Paul.naomit, tp_ug, )
 summary(TPmodel)
+#different formulations of the model with different subsets, step function, run it on the model object, run it on a series of AIC tests, starts with the full model - the top of the output data, 
+#year4 has the lowest AIC value 
+#step function continues to work until none is the model that 
+  #step takes each variable out of the model and compares it and also compares it doing nothing, compute a different AIC value for each different option 
+#compute AIC value for each stacks AIC value and determines which one is the lowest, everything except phosphate, runs with all four of variables except phosphate, if I remove any one of those four or I do nothing, 
 
 ##IF I remove one of rou, what would be our best value? 
 ##none hast the lowest AIC value, 
