@@ -85,6 +85,7 @@ EnoDischarge.early <- EnoDischarge.complete %>%
 
 EnoDischarge.late <- EnoDischarge.complete %>%
   filter(datetime > as.Date("1985-01-01"))
+
 ```
 
 ## Decomposing a time series dataset
@@ -221,8 +222,11 @@ In general, detecting a monotonic trend requires a long sequence of data with fe
 Adjusting the data may be necessary to fulfill the assumptions of a trend test. These adjustments include **aggregation**, **subsampling**, and **interpolation**. What do each of these mean, and why might we want to use them?
 
 > aggregation: 
+#aggregate across equally spaced gaps across the time series 
 
 > subsampling: 
+#check earlier and later dates, 
+#subsampling used the least out of time series 
 
 > interpolation: 
 
@@ -231,6 +235,7 @@ Common interpolation methods:
 * **Piecewise constant**: also known as a "nearest neighbor" approach. Any missing data are assumed to be equal to the measurement made nearest to that date (could be earlier or later).
 * **Linear**: could be thought of as a "connect the dots" approach. Any missing data are assumed to fall between the previous and next measurement, with a straight line drawn between the known points determining the values of the interpolated data on any given date.
 * **Spline**: similar to a linear interpolation except that a quadratic function is used to interpolate rather than drawing a straight line.
+##uses the quadratic equation, overpredict upper bounds, underpredict lower bounds 
 
 #### Example: interpolation
 
@@ -243,6 +248,7 @@ ggplot(NCAir, aes(x = Date, y = Ozone)) +
   geom_point() +
   facet_wrap(vars(Site.Name))
 print(NCOzone)
+## if you try to interpolate across several months would end up with a straight line, you can see that there is a lot of variability from day to day - if you have many years of data 
 
 NCPM2.5 <-
 ggplot(NCAir, aes(x = Date, y = PM2.5)) +
@@ -251,6 +257,8 @@ ggplot(NCAir, aes(x = Date, y = PM2.5)) +
 print(NCPM2.5)
 
 summary(NCAir$Site.Name)
+#how many rows in the data frame are present, you can see how many days are missing out of 730 samples 
+#pick Garinger High School because they have 8 missing day 
 
 NCAir.Garinger <- NCAir %>%
   filter(Site.Name == "Garinger High School")
@@ -263,6 +271,7 @@ print(GaringerOzone)
 # na.approx function fills in NAs with a linear interpolation
 # Spline interpolation can also be specified as an alternative
 # Piecewise constant interpolation can be done with na.aggregate
+# interpreting the columns separately 
 NCAir.Garinger$Ozone <- na.approx(NCAir.Garinger$Ozone)
 NCAir.Garinger$PM2.5 <- na.approx(NCAir.Garinger$PM2.5)
 
@@ -292,6 +301,8 @@ Remember that we noticed in the decomposition that the Eno River discharge data 
 The Seasonal Mann-Kendall assumes no temporal autocorrelation, but we know that daily data is prone to temporal autocorrelation. In this case, we may want to collapse our data down into monthly data so that we can (1) reduce temporal autocorrelation and (2) break down the potential seasonal trend into more interpretable components. 
 
 We will calculate the mean monthly discharge for this dataset, rather than calculating the total monthly discharge or subsampling a given day in each month. Why did we make this decision?
+## collapse data down into monthly data, break down into 12 seasons - aggregating data - collapse the variabiltiy down for each month, come up with aggregation for each month 
+
 
 ```{r}
 EnoDischarge.late.monthly <- EnoDischarge.late %>%
@@ -299,17 +310,28 @@ EnoDischarge.late.monthly <- EnoDischarge.late %>%
          Month = month(datetime)) %>%
   group_by(Year, Month) %>%
   summarise(Discharge = mean(discharge.mean)) 
+#usage of lubridate package 
+#better to use mean than median in this case to account for outliers
+# if you used sum - your months don't have the same number of months between each month - be mindful of that - easier to aggregate by year because each have the same number of days 
+#creates 411 months of data with one mean discharge for each 
+#new columns are generated group by, and summarise 
+
   
 EnoDischarge.late.monthly$Date <- as.Date(paste(EnoDischarge.late.monthly$Year, 
                                                 EnoDischarge.late.monthly$Month, 
                                                 1, sep="-"), 
                                           format = "%Y-%m-%d")
+##Calling up new column as a class of date, pasting in year, month and a value of 1 indicating day, separated by a dash, giving it how you want it formatted? manipulating it into having a date access 
 
 # Generate time series (smk.test needs ts, not data.frame)
 EnoDischarge.late.monthly.ts <- ts(EnoDischarge.late.monthly$Discharge, frequency = 12, 
                         start = c(1985, 10, 1), end = c(2019, 12, 1))
+
+##time series must have a frequency - from this data frame, starting in 1985 and ending in 12th month of 2019, need to specify start and end date 
+
 # Run SMK test
 EnoDischarge.late.trend <- smk.test(EnoDischarge.late.monthly.ts)
+#top line analysis: not a significant trend because p-value is greater than .05, z score is close to 0, can't discern a significant trend in the dataset 
 
 # Inspect results
 EnoDischarge.late.trend
@@ -320,10 +342,13 @@ ggplot(EnoDischarge.late.monthly, aes(x = Date, y = Discharge)) +
   geom_point() +
   geom_line()
 print(EnoDischarge.monthly)
+
+##in this case seasons are represented as months 
+
 ```
 
 What would we conclude based on these findings? 
-
+There is no monotonic seasonal trend in this data set (z = -0.13967, p-value = 0.8889)
 >
  
 If a significant trend was present, we could compute a **Sen's Slope** to quantify that trend (`sens.slope` function in the trend package).
