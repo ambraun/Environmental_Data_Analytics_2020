@@ -326,6 +326,7 @@ EnoDischarge.late.monthly$Date <- as.Date(paste(EnoDischarge.late.monthly$Year,
 # Generate time series (smk.test needs ts, not data.frame)
 EnoDischarge.late.monthly.ts <- ts(EnoDischarge.late.monthly$Discharge, frequency = 12, 
                         start = c(1985, 10, 1), end = c(2019, 12, 1))
+summary(EnoDischarge.late.monthly.ts)
 
 ##time series must have a frequency - from this data frame, starting in 1985 and ending in 12th month of 2019, need to specify start and end date 
 
@@ -352,7 +353,6 @@ There is no monotonic seasonal trend in this data set (z = -0.13967, p-value = 0
 >
  
 If a significant trend was present, we could compute a **Sen's Slope** to quantify that trend (`sens.slope` function in the trend package).
-
 
 
 ## Forecasting with Autoregressive and Moving Average Models (ARMA)
