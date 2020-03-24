@@ -310,7 +310,7 @@ I like to always save a copy of the raw data in my R session and rename all new 
 gages_raw <- st_read(here("data","spatial_data", "gagesII_9322_sept30_2011.shp"))
 southeast_state_bounds_raw <- st_read(here("data", "spatial_data", "southeast_state_bounds.shp"))
 my_tabular_data_raw <- read.csv(here("data", "tabular_data", "conterm_climate.txt"))
-
+#choosing climate data here 
 ##try out read.table and read.csv to make sure you're getting the correctly formatted data 
 
 # red warning text is telling you how the data is being parsed
@@ -342,6 +342,11 @@ col_name(basins_nf_seplains_raw)
 attributes(basins_nf_seplains_raw)
 head(basins_nf_seplains_raw)
 
+class(basins_nf_seplains_raw)
+names(basins_nf_seplains_raw)
+length(names(basins_nf_seplains_raw))
+attributes(basins_nf_seplains_raw)
+head(basins_nf_seplains_raw)
 # bonus, add your code here
 ```
 
@@ -830,7 +835,7 @@ Can you reproduce Figure 1b?
 # add your code here
 
 # make figure 1b
-# find watersheds that overlap with NC (want the whole watershed, not just the part of the watershe that's inside the NC bounds)
+# find watersheds that overlap with NC (want the whole watershed, not just the part of the watershed that's inside the NC bounds)
 # add your code here
 
 # look at result
