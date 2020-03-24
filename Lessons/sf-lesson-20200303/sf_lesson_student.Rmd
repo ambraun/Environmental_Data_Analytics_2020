@@ -762,6 +762,63 @@ dev.off()
 # bonus
 # try chaning the zoom on get_map() and see what happens
 # look at the help menu for more information on the zoom range
+
+
+# select North Carolina (NC)
+fl_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "Florida") %>%
+  st_geometry()
+##dropping geometry 
+
+# get data bounding box
+##buffer north carolina boundary by 1500000 meters can use trial and errr to figure out what is big enough 
+fl_bbox <- fl_state_bounds_geom %>%
+  st_buffer(dist = 150000) %>% # this value is very arbitrary just wanting to make a large buffer around geometry
+  st_transform(4326) %>% # WGS84 (for lat and long)
+  ## translating back into longitude and latitude 
+  st_bbox()
+##st_bbox() bounding box edges coordinates x y values for boundaries of the buffer 
+fl_bbox # check
+
+# fix bounding box columns so they match what is needed for the 
+##ggmap::get_map() function
+fl_bbox_fix <- c(left = fl_bbox[[1]], bottom = fl_bbox[[2]], right = fl_bbox[[3]], top = fl_bbox[[4]])
+
+# check result
+fl_bbox_fix
+
+# get basemap
+fl_basemap <- get_map(fl_bbox_fix, maptype = 'terrain-background', source = 'stamen', zoom = 8)
+##loads tiles 
+class(fl_basemap)
+##raster
+st_crs(fl_basemap)
+
+##stamen basemap, other people use different type of basemaps
+## help -> get_map, tells you the different zoom scales 
+# you'll have to trust me that this will have a CRS = WGS84
+
+# convert nc_state_bounds_geom to WGS84 so it matches nc_basemap
+fl_state_bounds_geom_wsg84 <- fl_state_bounds_geom %>%
+  st_transform(4326)
+##project back to longitutde and latitude 
+
+# check
+st_crs(fl_state_bounds_geom_wsg84)
+
+# plot without basemap
+pdf(here("outputs", "fl_without_basemap.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = fl_state_bounds_geom_wsg84, fill = NA, lwd = 2) +
+  theme_bw()
+dev.off()
+
+# plot with basemap
+# windows version?
+pdf(here("outputs", "fl_with_basemap.pdf"), width = 11, height = 8.5)
+ggmap(fl_basemap) +
+  geom_sf(data = fl_state_bounds_geom_wsg84, fill = NA, lwd = 1, inherit.aes = FALSE)
+dev.off()
 ```
 
 **Activity**

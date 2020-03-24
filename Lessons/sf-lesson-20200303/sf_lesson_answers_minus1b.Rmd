@@ -281,7 +281,8 @@ I like to always save a copy of the raw data in my R session and rename all new 
 # add your code here
 gages_raw <- st_read(here("data", "spatial_data", "gagesII_9322_sept30_2011.shp"))
 southeast_state_bounds_raw <- st_read(here("data", "spatial_data", "southeast_state_bounds.shp"))
-my_tabular_data_raw <- read_csv(here("data", "tabular_data", "conterm_climate.txt")) # I'm choosing climate data here
+my_tabular_data_raw <- read_csv(here("data", "tabular_data", "conterm_climate.txt")) 
+# I'm choosing climate data here
 
 # red warning text is telling you how the data is being parsed
 ```
@@ -702,11 +703,20 @@ Can you reproduce Figure 1b?
 ```{r activity.reproducing.figure1b}
 # select NC
 # add your code here
+nc_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "North Carolina") %>%
+  st_geometry()
+## is this right? 
+nc_basemap <- get_map(nc_bbox_fix, maptype = 'terrain-background', source = 'stamen', zoom = 8)
+#3 im so confused 
+
 
 
 # make figure 1b
-# find watersheds that overlap with NC (want the whole watershed, not just the part of the watershe that's inside the NC bounds)
+# find watersheds that overlap with NC (want the whole watershed, not just the part of the watershed that's inside the NC bounds)
+intersect 
 # add your code here
+
 
 
 # look at result
@@ -764,7 +774,7 @@ Let's try an example. Here we'll select all the gages in NC, join them with one 
 nc_gages <- gages %>%
   st_intersection(nc_state_bounds_geom)
 
-# take a look at ng_gages
+# take a look at nc_gages
 head(nc_gages)
 names(nc_gages)
 # we see there are some variables we could color by but the tabular data has many more

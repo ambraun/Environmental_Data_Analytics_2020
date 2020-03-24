@@ -39,3 +39,28 @@ Here are your three options:
 * Tabular data that correpond to one of the layers, specified as an aesthetic (e.g., total litter biomass at each trap, land cover class at each trap)
 
 Hint: One package that may come in handy here is the `maps` package, which contains several options for basemaps that cover political and geologic boundaries.
+```{r}
+library("readr")
+library("dplyr")
+library("tidyr")
+library("ggplot2")
+library("purrr")
+library("sf")
+library("ggmap")
+library("here")
+```
+
+```{r}
+pdf(here("outputs", "pdf_test.pdf"), width = 11, height = 8.5)
+ggplot(data = cars) +
+  geom_point(aes(x = dist, y = speed))
+dev.off()
+```
+
+```{r}
+basins_nf_seplains_raw <- st_read(here("data", "spatial_data", "bas_nonref_SEPlains.shp"))
+gages_raw <- st_read(here("data", "spatial_data", "gagesII_9322_sept30_2011.shp"))
+southeast_state_bounds_raw <- st_read(here("data", "spatial_data", "southeast_state_bounds.shp"))
+my_tabular_data_raw <- read_csv(here("data", "tabular_data", "conterm_climate.txt")) 
+```
+
