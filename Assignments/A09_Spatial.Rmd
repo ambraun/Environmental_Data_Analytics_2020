@@ -64,3 +64,289 @@ southeast_state_bounds_raw <- st_read(here("data", "spatial_data", "southeast_st
 my_tabular_data_raw <- read_csv(here("data", "tabular_data", "conterm_climate.txt")) 
 ```
 
+```{r}
+my_proj4 <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+my_epsg <- 5070
+
+basins_nf_seplains <- basins_nf_seplains_raw
+st_crs(basins_nf_seplains) <- my_proj4
+basins_nf_seplains <- basins_nf_seplains %>%
+  st_set_crs(my_epsg)
+st_crs(basins_nf_seplains)
+
+
+gages <- gages_raw
+st_crs(gages) <- my_proj4
+gages <- gages %>%
+  st_set_crs(my_epsg)
+st_crs(gages)
+
+southeast_state_bounds <- southeast_state_bounds_raw
+st_crs(southeast_state_bounds) <- my_proj4
+southeast_state_bounds <- southeast_state_bounds %>%
+  st_set_crs(my_epsg)
+st_crs(southeast_state_bounds)
+
+
+na_albers_proj4 <- "+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"
+na_albers_epsg <- 102008
+
+southeast_state_bounds_na_albers <-  sf::st_transform(southeast_state_bounds, crs = na_albers_proj4) %>%
+  st_set_crs(na_albers_epsg)
+```
+
+
+```{r}
+```
+
+
+```{r}
+st_crs(basins_nf_seplains)
+st_crs(gages)
+st_crs(southeast_state_bounds)
+st_crs(southeast_state_bounds_na_albers)
+```
+
+```{r}
+#select  North Carolina (NC)
+nc_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "North Carolina") %>%
+  st_geometry()
+
+# select watersheds that intersect with NC bounds
+nc_basins_nf_seplains <- basins_nf_seplains %>%
+  st_intersection(nc_state_bounds_geom)
+
+# check
+head(nc_basins_nf_seplains)
+
+# select gages that fall within NC bounds
+# add your code here
+nc_gages <- gages %>%
+  st_intersection(nc_state_bounds_geom)
+
+head(nc_gages)
+names(nc_gages)
+
+names(my_tabular_data_raw)
+
+names(nc_gages)
+# use "STAID"
+
+# join the tabular data to nc_gages
+nc_gages$STAID <- as.factor(nc_gages$STAID)
+  left_join(my_tabular_data_raw, by = "STAID")
+
+my_tabular_data_raw$STAID <-as.factor(my_tabular_data_raw$STAID)
+  
+# check that it worked
+names(nc_gages_climate)
+
+nc_gages_climate <- nc_gages %>%
+  left_join(my_tabular_data_raw, by = "STAID")
+
+
+
+```
+```{r}
+
+```
+```{r}
+# select North Carolina (NC)
+nc_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "North Carolina") %>%
+  st_geometry()
+##dropping geometry 
+
+# get data bounding box
+##buffer north carolina boundary by 1500000 meters can use trial and errr to figure out what is big enough 
+nc_bbox <- nc_state_bounds_geom %>%
+  st_buffer(dist = 150000) %>% 
+  st_transform(4326) %>% 
+  st_bbox()
+nc_bbox 
+
+# fix bounding box columns so they match what is needed for the 
+
+nc_bbox_fix <- c(left = nc_bbox[[1]], bottom = nc_bbox[[2]], right = nc_bbox[[3]], top = nc_bbox[[4]])
+
+# check result
+nc_bbox_fix
+
+# get basemap
+nc_basemap <- get_map(nc_bbox_fix, maptype = 'terrain-background', source = 'stamen', zoom = 8)
+##loads tiles 
+class(nc_basemap)
+##raster
+st_crs(nc_basemap)
+
+##stamen basemap, other people use different type of basemaps
+## help -> get_map, tells you the different zoom scales 
+# you'll have to trust me that this will have a CRS = WGS84
+
+# convert nc_state_bounds_geom to WGS84 so it matches nc_basemap
+nc_state_bounds_geom_wsg84 <- nc_state_bounds_geom %>%
+  st_transform(4326)
+##project back to longitutde and latitude 
+
+# check
+st_crs(nc_state_bounds_geom_wsg84)
+
+# plot without basemap
+pdf(here("outputs", "nc_without_basemap.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = nc_state_bounds_geom_wsg84, fill = NA, lwd = 2) +
+  theme_bw()
+dev.off()
+
+# plot with basemap
+# windows version?
+pdf(here("outputs", "nc_with_basemap.pdf"), width = 11, height = 8.5)
+ggmap(nc_basemap) +
+  geom_sf(data = nc_state_bounds_geom_wsg84, fill = NA, lwd = 1, inherit.aes = FALSE)
+```
+
+```{r}
+pdf(here("outputs", "Spatial_Data_AssignmentX.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = nc_state_bounds_geom_wsg84, fill = NA, lwd = 1, inherit.aes = FALSE) +
+  geom_sf(data = nc_basins_nf_seplains, alpha = 0.25, color = "gray") +
+  geom_sf(data = nc_gages, lwd = 1) +
+  geom_sf(data = nc_gages_climate, aes(color = T_AVG_SITE), size = 1) +
+  scale_color_gradient(low = "white", high = "blue", labels = c("10° C", "12° C", "14° C ", "16° C")) +
+  labs(color = "Stream Gage Average Annual Air Temp °C )") +
+  theme_bw()
+dev.off()
+
+
+```
+
+```{r}
+sc_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "South Carolina") %>%
+  st_geometry()
+
+# select watersheds that intersect with NC bounds
+sc_basins_nf_seplains <- basins_nf_seplains %>%
+  st_intersection(sc_state_bounds_geom)
+
+# check
+head(sc_basins_nf_seplains)
+
+# select gages that fall within NC bounds
+# add your code here
+sc_gages <- gages %>%
+  st_intersection(sc_state_bounds_geom)
+
+head(sc_gages)
+names(sc_gages)
+
+names(my_tabular_data_raw)
+
+names(sc_gages)
+# use "STAID"
+
+# join the tabular data to nc_gages
+sc_gages$STAID <- as.factor(sc_gages$STAID)
+  left_join(my_tabular_data_raw, by = "STAID")
+
+my_tabular_data_raw$STAID <-as.factor(my_tabular_data_raw$STAID)
+  
+# check that it worked
+
+
+sc_gages_climate <- sc_gages %>%
+  left_join(my_tabular_data_raw, by = "STAID")
+
+names(sc_gages_climate)
+
+
+```
+```{r}
+
+```
+```{r}
+# select North Carolina (NC)
+sc_state_bounds_geom <- southeast_state_bounds %>%
+  filter(NAME == "South Carolina") %>%
+  st_geometry()
+##dropping geometry 
+
+# get data bounding box
+##buffer north carolina boundary by 1500000 meters can use trial and errr to figure out what is big enough 
+sc_bbox <- sc_state_bounds_geom %>%
+  st_buffer(dist = 150000) %>% 
+  st_transform(4326) %>% 
+  st_bbox()
+sc_bbox 
+
+# fix bounding box columns so they match what is needed for the 
+
+sc_bbox_fix <- c(left = sc_bbox[[1]], bottom = sc_bbox[[2]], right = sc_bbox[[3]], top = sc_bbox[[4]])
+
+# check result
+sc_bbox_fix
+
+# get basemap
+sc_basemap <- get_map(sc_bbox_fix, maptype = 'terrain-background', source = 'stamen', zoom = 8)
+##loads tiles 
+class(sc_basemap)
+##raster
+st_crs(sc_basemap)
+
+##stamen basemap, other people use different type of basemaps
+## help -> get_map, tells you the different zoom scales 
+# you'll have to trust me that this will have a CRS = WGS84
+
+# convert nc_state_bounds_geom to WGS84 so it matches nc_basemap
+sc_state_bounds_geom_wsg84 <- sc_state_bounds_geom %>%
+  st_transform(4326)
+##project back to longitutde and latitude 
+
+# check
+st_crs(sc_state_bounds_geom_wsg84)
+
+# plot without basemap
+pdf(here("outputs", "sc_without_basemap.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = sc_state_bounds_geom_wsg84, fill = NA, lwd = 2) +
+  theme_bw()
+dev.off()
+
+# plot with basemap
+# windows version?
+pdf(here("outputs", "sc_with_basemap.pdf"), width = 11, height = 8.5)
+ggmap(sc_basemap) +
+  geom_sf(data = sc_state_bounds_geom_wsg84, fill = NA, lwd = 1, inherit.aes = FALSE)+
+theme_bw()
+dev.off()
+```
+
+```{r}
+pdf(here("outputs", "AmandaBraun_A09_Spatial.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = sc_state_bounds_geom, fill = "white") +
+  geom_sf(data = sc_basins_nf_seplains, alpha = 0.25, color = "dark gray") +
+  geom_sf(data = sc_gages, lwd = 1) +
+  geom_sf(data = sc_gages_climate, aes(color = T_AVG_SITE), size = 1) +
+  scale_color_gradient(low = "white", high = "blue", labels = c("14° C", "15° C", "16° C ", "17° C", "18° C")) +
+  labs(color = "Stream Gage\nAverage Annual Air Temp °C") +
+  theme_bw()
+dev.off()
+
+
+```
+
+```{r}
+pdf(here("outputs", "AmandaBraun_A09_Spatial.pdf"), width = 11, height = 8.5)
+ggmap(sc_basemap) +
+  geom_sf(data = sc_state_bounds_geom_wsg84, fill = NA, lwd = 1, inherit.aes = FALSE)+
+  geom_sf(data = sc_basins_nf_seplains, alpha = 0.25, color = "dark gray") +
+  geom_sf(data = sc_gages, lwd = 1) +
+  geom_sf(data = sc_gages_climate, aes(color = T_AVG_SITE), size = 1) +
+  scale_color_gradient(low = "white", high = "blue", labels = c("14° C", "15° C", "16° C ", "17° C", "18° C")) +
+  labs(color = "Stream Gage\nAverage Annual Air Temp °C") +
+  theme_bw()
+dev.off()
+```
+
